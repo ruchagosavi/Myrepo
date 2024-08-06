@@ -1,0 +1,198 @@
+import React, { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import styles from './Components.module.css';
+
+// Importing Page Sections
+import HeroSection from '../../components/HeroSection/HeroSection';
+import FeatureSection from '../../components/FeatureSection/FeatureSection';
+import CTASection from '../../components/CTASection/CTASection';
+import PricingPage from '../../components/PricingPage/PricingPage';
+import HeaderSection from '../../components/HeaderSection/HeaderSection';
+import FooterSection from '../../components/FooterSection/FooterSection';
+import TestimonialsSection from '../../components/TestimonialsSection/TestimonialsSection';
+import FAQSection from '../../components/FAQSection/FAQSection';
+import TeamSection from '../../components/TeamSection/TeamSection';
+import NewsletterSection from '../../components/NewsletterSection/NewsletterSection';
+
+// Importing Pages
+import LandingPage from '../../components/LandingPage/LandingPage';
+import AboutPage from '../../components/AboutPage/AboutPage';
+import ContactPage from '../../components/ContactPage/ContactPage';
+import LoginPage from '../../components/LoginPage/LoginPage';
+import RegistrationPage from '../../components/RegistrationPage/RegistrationPage';
+import DashboardPage from '../../components/DashboardPage/DashboardPage';
+import ProfilePage from '../../components/ProfilePage/ProfilePage';
+
+// Importing Layouts
+import GridLayout from '../../components/GridLayout/GridLayout';
+import FlexLayout from '../../components/FlexLayout/FlexLayout';
+
+// Importing Forms
+import LoginForm from '../../components/LoginForm/LoginForm';
+import RegistrationForm from '../../components/RegistrationForm/RegistrationForm';
+import ContactForm from '../../components/ContactForm/ContactForm';
+import SubscriptionForm from '../../components/SubscriptionForm/SubscriptionForm';
+import FeedbackForm from '../../components/FeedbackForm/FeedbackForm';
+import SearchForm from '../../components/SearchForm/SearchForm';
+
+// Importing UI Elements
+import Button from '../../components/Button/Button';
+import CardSection from '../../components/CardSection/CardSection';
+import ProgressBar from '../../components/ProgressBar/ProgressBar';
+import Dropdown from '../../components/Dropdown/Dropdown';
+
+// Importing Navigation
+import NavbarSection from '../../components/NavbarSection/NavbarSection';
+
+// Importing Media
+import ImageGallery from '../../components/ImageGallery/ImageGallery';
+
+// Importing Data Display
+import Chart from '../../components/Chart/Chart';
+
+// Importing Utility Components
+import Divider from '../../components/Divider/Divider';
+
+const Components: React.FC = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  const sections = [
+    {
+      name: 'Page Sections',
+      components: [
+        { name: 'Hero Section', component: HeroSection },
+        { name: 'Feature Section', component: FeatureSection },
+        { name: 'CTA Section', component: CTASection },
+        { name: 'Pricing Page', component: PricingPage },
+        { name: 'Header Section', component: HeaderSection },
+        { name: 'Footer Section', component: FooterSection },
+        { name: 'Testimonials Section', component: TestimonialsSection },
+        { name: 'FAQ Section', component: FAQSection },
+        { name: 'Team Section', component: TeamSection },
+        { name: 'Newsletter Section', component: NewsletterSection },
+      ],
+    },
+    {
+      name: 'Pages',
+      components: [
+        { name: 'Landing Page', component: LandingPage },
+        { name: 'About Page', component: AboutPage },
+        { name: 'Contact Page', component: ContactPage },
+        { name: 'Login Page', component: LoginPage },
+        { name: 'Registration Page', component: RegistrationPage },
+        { name: 'Dashboard Page', component: DashboardPage },
+        { name: 'Profile Page', component: ProfilePage },
+      ],
+    },
+    {
+      name: 'Layouts',
+      components: [
+        { name: 'Grid Layout', component: GridLayout },
+        { name: 'Flex Layout', component: FlexLayout },
+      ],
+    },
+    {
+      name: 'Forms',
+      components: [
+        { name: 'Login Form', component: LoginForm },
+        { name: 'Registration Form', component: RegistrationForm },
+        { name: 'Contact Form', component: ContactForm },
+        { name: 'Subscription Form', component: SubscriptionForm },
+        { name: 'Feedback Form', component: FeedbackForm },
+        { name: 'Search Form', component: SearchForm },
+      ],
+    },
+    {
+      name: 'UI Elements',
+      components: [
+        { name: 'Button', component: Button },
+        { name: 'Card Section', component: CardSection },
+        { name: 'Progress Bar', component: ProgressBar },
+        { name: 'Dropdown', component: Dropdown },
+      ],
+    },
+    {
+      name: 'Navigation',
+      components: [{ name: 'Navbar Section', component: NavbarSection }],
+    },
+    {
+      name: 'Media',
+      components: [{ name: 'Image Gallery', component: ImageGallery }],
+    },
+    {
+      name: 'Data Display',
+      components: [{ name: 'Chart', component: Chart }],
+    },
+    {
+      name: 'Utility Components',
+      components: [{ name: 'Divider', component: Divider }],
+    },
+  ];
+
+  const fetchMoreData = () => {
+    if (currentSectionIndex < sections.length - 1) {
+      setCurrentSectionIndex(currentSectionIndex + 1);
+    }
+  };
+
+  return (
+    <div className={styles.componentsContainer}>
+      <div className={styles.heroSection}>
+        <h1>Huge collection of sections</h1>
+        <h2>Infinite combinations</h2>
+        <p>
+          Discover a multitude of customizable options to craft pixel-perfect pages with ease.
+        </p>
+        <div className={styles.searchBox}>
+          <input
+            type="text"
+            placeholder="Search for multiple components..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+      </div>
+
+      <div className={styles.sectionsContainer} ref={sectionRef}>
+        <InfiniteScroll
+          dataLength={sections[currentSectionIndex].components.length}
+          next={fetchMoreData}
+          hasMore={currentSectionIndex < sections.length - 1}
+          loader={<h4>Loading...</h4>}
+          scrollableTarget="scrollableDiv"
+        >
+          {sections.slice(0, currentSectionIndex + 1).map((section, sectionIndex) => (
+            <div key={sectionIndex} className={styles.section}>
+              <h3 className={styles.sectionHeading}>{section.name}</h3>
+              <div className={styles.blocksContainer}>
+                {section.components
+                  .filter(component =>
+                    component.name.toLowerCase().includes(searchQuery.toLowerCase())
+                  )
+                  .map((component, index) => (
+                    <Link
+                      key={index}
+                      to={`/${component.name.toLowerCase().replace(/ /g, '')}`}
+                      className={styles.blockLink}
+                    >
+                      <div className={styles.block}>
+                        <div className={styles.blockImage}>Image</div>
+                        <div className={styles.blockContent}>
+                          <p className={styles.blockTitle}>{component.name}</p>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+              </div>
+            </div>
+          ))}
+        </InfiniteScroll>
+      </div>
+    </div>
+  );
+};
+
+export default Components;
